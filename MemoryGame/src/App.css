@@ -3,40 +3,196 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  /* Fundo geral um pouco mais claro para se destacar do menu */
+  background-color: #282c34;
+  min-height: 100vh; /* Garante que o fundo cubra toda a altura */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #e0e0e0; /* Cor de texto padrão para o corpo */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Removi os estilos do boilerplate que não são usados no jogo */
+
+/* --- Estilos do Jogo da Memória --- */
+.game-status {
+  margin-bottom: 20px;
+  padding: 15px; /* Aumentei o padding */
+  border: 2px solid #61dafb; /* Borda mais visível e colorida */
+  border-radius: 10px; /* Bordas mais arredondadas */
+  background-color: #20232a; /* Fundo mais escuro para o status */
+  color: #ffffff; /* Texto branco para alto contraste */
+  font-size: 1.1em; /* Fonte um pouco maior */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para profundidade */
 }
 
-@keyframes logo-spin {
+.low-time {
+  color: #ff6b6b; /* Vermelho mais vibrante para tempo acabando */
+  font-weight: bold;
+  animation: pulse 1s infinite alternate; /* Animação para chamar atenção */
+}
+
+@keyframes pulse {
   from {
-    transform: rotate(0deg);
+    transform: scale(1);
   }
   to {
-    transform: rotate(360deg);
+    transform: scale(1.05);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Layout do Tabuleiro */
+.memory-board {
+  display: grid;
+  gap: 12px; /* Aumentei o espaço entre as cartas */
+  margin: 20px auto;
+  perspective: 1000px;
+  background-color: #20232a; /* Fundo do tabuleiro */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
+/* 2x2 Board */
+.board-size-2x2 {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 250px; /* Ajuste para centralizar e caber */
+}
+
+/* 4x4 Board */
+.board-size-4x4 {
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 520px; /* Ajuste */
+}
+
+/* 6x6 Board */
+.board-size-6x6 {
+  grid-template-columns: repeat(6, 1fr);
+  max-width: 780px; /* Ajuste */
+}
+
+/* Estilo da Carta */
 .card {
-  padding: 2em;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  background-color: transparent;
+  border: 2px solid #61dafb; /* Borda mais grossa e colorida */
+  border-radius: 10px; /* Bordas mais arredondadas */
+  position: relative;
+  transform-style: preserve-3d;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para cada carta */
 }
 
-.read-the-docs {
-  color: #888;
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s ease-in-out; /* Adicionei ease-in-out para suavidade */
+  transform-style: preserve-3d;
+}
+
+/* Estado 'Virada' (Flipped) - Aplica a rotação 3D */
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3em; /* Emojis maiores */
+  border-radius: 8px;
+  user-select: none;
+  font-weight: bold; /* Emojis mais fortes */
+}
+
+.card-back {
+  background-color: #61dafb; /* Cor da carta virada para baixo (azul vibrante) */
+  color: #282c34; /* Texto escuro no fundo azul */
+  border: 1px solid #4a90e2; /* Borda interna sutil */
+}
+
+.card-front {
+  background-color: #ffffff; /* Fundo branco para os emojis */
+  color: #282c34; /* Cor de texto padrão para os emojis */
+  transform: rotateY(180deg);
+  border: 1px solid #e0e0e0;
+}
+
+/* Cartas Combinadas (Matched) */
+.card.matched {
+  cursor: default;
+  opacity: 0.8;
+  border-color: #2ecc71; /* Borda verde vibrante */
+  filter: drop-shadow(0 0 8px #2ecc71); /* Sombra verde forte */
+}
+
+/* Estilos de Menu e Telas Finais */
+.game-menu,
+.game-screen {
+  padding: 40px; /* Mais padding */
+  border-radius: 15px; /* Bordas mais arredondadas */
+  background-color: #20232a; /* Fundo escuro */
+  color: #ffffff; /* Texto branco */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Sombra mais intensa */
+  margin-top: 50px; /* Espaço do topo */
+}
+
+.game-menu h1,
+.game-screen h1 {
+  font-size: 2.5em; /* Títulos maiores */
+  margin-bottom: 25px;
+  color: #61dafb; /* Cor de destaque para títulos */
+}
+
+.game-menu p,
+.game-screen p {
+  font-size: 1.2em; /* Texto maior */
+  margin-bottom: 15px;
+  color: #e0e0e0;
+}
+
+.game-menu button,
+.game-screen button {
+  display: block;
+  margin: 15px auto;
+  padding: 15px 30px; /* Botões maiores */
+  font-size: 1.2em; /* Fonte dos botões */
+  background-color: #61dafb; /* Cor principal dos botões */
+  color: #282c34; /* Texto escuro nos botões */
+  border: none;
+  border-radius: 8px; /* Bordas arredondadas */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves */
+  font-weight: bold;
+  text-transform: uppercase; /* Texto em maiúsculas */
+}
+
+.game-menu button:hover,
+.game-screen button:hover {
+  background-color: #4a90e2; /* Cor mais escura no hover */
+  transform: translateY(-2px); /* Efeito de "levantar" */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Cores específicas para as telas de vitória/derrota */
+.win-screen h1 {
+  color: #2ecc71; /* Verde vibrante para vitória */
+}
+.lose-screen h1 {
+  color: #ff6b6b; /* Vermelho vibrante para derrota */
+}
+
+/* Estilo para o recorde no menu */
+.record-display {
+  font-weight: bold;
+  color: #e0e0e0; /* Cor para o texto de recorde */
+  margin-top: 10px;
+  margin-bottom: 25px;
 }
